@@ -53,7 +53,7 @@ f(3, 'a', thing1="hello")
 
 def slow_calculation3(cb=None):
     res = 0
-    for i in range(4):
+    for i in range(5):
         if cb: cb.before_calc(i)
         res += i*i
         sleep(1)
@@ -61,8 +61,32 @@ def slow_calculation3(cb=None):
     return res
 
 
+class PrintStepCallback():
+    def __init__(self):
+        pass
+    
+    def before_calc(self, *args, **kwargs):
+        print("About to start")
+        
+    def after_calc(self, *args, **kwargs):
+        print("Done step")
         
 
+slow_calculation3(PrintStepCallback)
+
+        
+########
+class PrintStepCallback2():
+    def __init__(self):
+        pass
+    
+    def before_calc(self, epoch, **kwargs):
+        print("About to start {}".format(epoch))
+        
+    def after_calc(self, epoch, val, **kwargs):
+        print("Done step {}, value {}".format(epoch, val))
+        
+slow_calculation3( PrintStepCallback2() )
 
 
 
